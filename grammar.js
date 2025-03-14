@@ -254,7 +254,11 @@ module.exports = grammar({
           seq($._expr, choice(">", "<", ">=", "<="), $._expr),
         ),
         prec.left(PREC.equal_bool, seq($._expr, choice("==", "!="), $._expr)),
-        prec.left(PREC.equal_string, seq($._expr, choice("eq", "ne"), $._expr)),
+        prec.left(
+          PREC.equal_string,
+          seq($._expr, field("operator", $.string_comparator), $._expr),
+        ),
+
         prec.left(PREC.contain, seq($._expr, choice("in", "ni"), $._expr)),
         prec.left(PREC.and_bit, seq($._expr, "&", $._expr)),
         prec.left(PREC.xor_bit, seq($._expr, "^", $._expr)),
@@ -262,6 +266,8 @@ module.exports = grammar({
         prec.left(PREC.and_logical, seq($._expr, "&&", $._expr)),
         prec.left(PREC.or_logical, seq($._expr, "||", $._expr)),
       ),
+
+    string_comparator: (_) => choice("eq", "ne"),
 
     ternary_expr: ($) =>
       prec.left(PREC.ternary, seq($._expr, "?", $._expr, ":", $._expr)),

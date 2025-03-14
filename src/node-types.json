@@ -90,7 +90,18 @@
   {
     "type": "binop_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_comparator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -1022,6 +1033,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "string_comparator",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "ternary_expr",
