@@ -107,9 +107,14 @@ module.exports = grammar({
 
     expr_cmd: ($) => seq("expr", $.expr),
 
-    foreach: ($) => seq("foreach", $.arguments, $._word_simple, $._word),
+    foreach: ($) =>
+      seq(
+        "foreach",
+        repeat1(seq($._word, $._word)), // Supports multiple var-list pairs
+        $._word, // Body
+      ),
 
-    global: ($) => seq("global", repeat($._concat_word)),
+    global: ($) => seq("global", repeat1($.simple_word)),
 
     namespace: ($) =>
       seq(

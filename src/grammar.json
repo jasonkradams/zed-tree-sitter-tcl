@@ -404,12 +404,20 @@
           "value": "foreach"
         },
         {
-          "type": "SYMBOL",
-          "name": "arguments"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_word_simple"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_word"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_word"
+              }
+            ]
+          }
         },
         {
           "type": "SYMBOL",
@@ -425,10 +433,10 @@
           "value": "global"
         },
         {
-          "type": "REPEAT",
+          "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
-            "name": "_concat_word"
+            "name": "simple_word"
           }
         }
       ]
