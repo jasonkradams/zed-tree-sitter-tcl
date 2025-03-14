@@ -1361,12 +1361,17 @@
                 "name": "_expr"
               },
               {
-                "type": "FIELD",
-                "name": "operator",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "string_comparator"
-                }
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "eq"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "ne"
+                  }
+                ]
               },
               {
                 "type": "SYMBOL",
@@ -1509,19 +1514,6 @@
               }
             ]
           }
-        }
-      ]
-    },
-    "string_comparator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "eq"
-        },
-        {
-          "type": "STRING",
-          "value": "ne"
         }
       ]
     },
