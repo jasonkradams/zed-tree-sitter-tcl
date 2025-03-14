@@ -235,14 +235,43 @@
           "value": "append"
         },
         {
-          "type": "SYMBOL",
-          "name": "simple_word"
+          "type": "FIELD",
+          "name": "variable",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_word"
+          }
         },
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "simple_word"
+            "type": "FIELD",
+            "name": "value",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "simple_word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "variable_substitution"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "quoted_word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "braced_word"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "command_substitution"
+                }
+              ]
+            }
           }
         }
       ]

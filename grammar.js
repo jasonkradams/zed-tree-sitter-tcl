@@ -75,7 +75,23 @@ module.exports = grammar({
         seq("after", "info", optional($.simple_word)), // after info ?id?
       ),
 
-    append: ($) => seq("append", $.simple_word, repeat($.simple_word)),
+    append: ($) =>
+      seq(
+        "append",
+        field("variable", $.simple_word),
+        repeat(
+          field(
+            "value",
+            choice(
+              $.simple_word,
+              $.variable_substitution,
+              $.quoted_word,
+              $.braced_word,
+              $.command_substitution,
+            ),
+          ),
+        ),
+      ),
 
     package: ($) =>
       seq(

@@ -59,6 +59,10 @@
    "trace"
    "source"))
 
+(package) @keyword
+(after) @function.builtin
+(while) @funtion.builtin
+
 (command name: (simple_word) @keyword
          (#any-of? @keyword
           "break"
@@ -88,8 +92,7 @@
           "switch"
           "throw"
           "unset"
-          "variable"
-          "while"))
+          "variable"))
 
 [
  "error"
