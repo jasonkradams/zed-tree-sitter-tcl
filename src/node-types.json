@@ -1,5 +1,52 @@
 [
   {
+    "type": "after",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "braced_word",
+          "named": true
+        },
+        {
+          "type": "command_substitution",
+          "named": true
+        },
+        {
+          "type": "escaped_character",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "quoted_word",
+          "named": true
+        },
+        {
+          "type": "simple_word",
+          "named": true
+        },
+        {
+          "type": "unpack",
+          "named": true
+        },
+        {
+          "type": "variable_substitution",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "append",
     "named": true,
     "fields": {},
@@ -157,6 +204,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "after",
+          "named": true
+        },
         {
           "type": "append",
           "named": true
@@ -360,6 +411,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "after",
+          "named": true
+        },
         {
           "type": "append",
           "named": true
@@ -1015,6 +1070,10 @@
       "required": false,
       "types": [
         {
+          "type": "after",
+          "named": true
+        },
+        {
           "type": "append",
           "named": true
         },
@@ -1456,7 +1515,15 @@
     "named": false
   },
   {
+    "type": "after",
+    "named": false
+  },
+  {
     "type": "append",
+    "named": false
+  },
+  {
+    "type": "cancel",
     "named": false
   },
   {
@@ -1508,6 +1575,10 @@
     "named": false
   },
   {
+    "type": "idle",
+    "named": false
+  },
+  {
     "type": "if",
     "named": false
   },
@@ -1517,6 +1588,10 @@
   },
   {
     "type": "in",
+    "named": false
+  },
+  {
+    "type": "info",
     "named": false
   },
   {
@@ -1534,6 +1609,10 @@
   {
     "type": "ni",
     "named": false
+  },
+  {
+    "type": "number",
+    "named": true
   },
   {
     "type": "on",

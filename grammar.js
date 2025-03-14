@@ -1,5 +1,6 @@
 // Taken from the expr man page
 const PREC = {
+  after_delay: 160, // Prioritize "after ms"
   unary: 150, // - + ~ !
   exp: 140, // **
   muldiv: 130, // * / %
@@ -30,6 +31,8 @@ module.exports = grammar({
 
   extras: ($) => [/\s+/, /\\\r?\n/],
 
+  conflicts: ($) => [[$.after]],
+
   rules: {
     source_file: ($) => repeat(seq(optional($._command), $._terminator)),
 
@@ -37,8 +40,12 @@ module.exports = grammar({
 
     comment: (_) => /#[^\n]*/,
 
+    digit: (_) => token(/[0-9]/),
+    number: ($) => token(/[0-9]+/),
+
     _builtin: ($) =>
       choice(
+        $.after,
         $.append,
         $.catch,
         $.conditional,
@@ -52,6 +59,17 @@ module.exports = grammar({
         $.set,
         $.try,
         $.while,
+      ),
+
+    after: ($) =>
+      choice(
+        prec(
+          PREC.after_delay,
+          seq("after", $.number, optional($._word)), // after ms { return }
+        ),
+        seq("after", "cancel", choice($.simple_word, repeat($.simple_word))), // after cancel id/script
+        seq("after", "idle", repeat($.simple_word)), // after idle scripts
+        seq("after", "info", optional($.simple_word)), // after info ?id?
       ),
 
     append: ($) => seq("append", $.simple_word, repeat($.simple_word)),

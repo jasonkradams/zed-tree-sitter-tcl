@@ -40,10 +40,10 @@
 
 "expr" @function.builtin
 
-(command
-  name: (simple_word) @function.builtin
+(command name: (simple_word) @function.builtin
   (#any-of? @function.builtin
    "after"
+   "append"
    "cd"
    "exec"
    "exit"
@@ -60,7 +60,6 @@
 
 (command name: (simple_word) @keyword
          (#any-of? @keyword
-          "append"
           "break"
           "catch"
           "continue"
