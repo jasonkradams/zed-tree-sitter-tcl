@@ -838,11 +838,39 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
-          "type": "word_list",
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "braced_word",
+          "named": true
+        },
+        {
+          "type": "command_substitution",
+          "named": true
+        },
+        {
+          "type": "escaped_character",
+          "named": true
+        },
+        {
+          "type": "quoted_word",
+          "named": true
+        },
+        {
+          "type": "simple_word",
+          "named": true
+        },
+        {
+          "type": "unpack",
+          "named": true
+        },
+        {
+          "type": "variable_substitution",
           "named": true
         }
       ]
@@ -1451,7 +1479,23 @@
     "named": false
   },
   {
+    "type": "-clear",
+    "named": false
+  },
+  {
+    "type": "-command",
+    "named": false
+  },
+  {
     "type": "-exact",
+    "named": false
+  },
+  {
+    "type": "-force",
+    "named": false
+  },
+  {
+    "type": "-variable",
     "named": false
   },
   {
@@ -1523,16 +1567,32 @@
     "named": false
   },
   {
-    "type": "cancel",
+    "type": "catch",
     "named": false
   },
   {
-    "type": "catch",
+    "type": "chancel",
+    "named": false
+  },
+  {
+    "type": "children",
+    "named": false
+  },
+  {
+    "type": "code",
     "named": false
   },
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "current",
+    "named": false
+  },
+  {
+    "type": "delete",
+    "named": false
   },
   {
     "type": "else",
@@ -1553,6 +1613,18 @@
   {
     "type": "escaped_character",
     "named": true
+  },
+  {
+    "type": "eval",
+    "named": false
+  },
+  {
+    "type": "exists",
+    "named": false
+  },
+  {
+    "type": "export",
+    "named": false
   },
   {
     "type": "expr",
@@ -1587,11 +1659,19 @@
     "named": false
   },
   {
+    "type": "import",
+    "named": false
+  },
+  {
     "type": "in",
     "named": false
   },
   {
     "type": "info",
+    "named": false
+  },
+  {
+    "type": "inscope",
     "named": false
   },
   {
@@ -1619,7 +1699,15 @@
     "named": false
   },
   {
+    "type": "origin",
+    "named": false
+  },
+  {
     "type": "package",
+    "named": false
+  },
+  {
+    "type": "parent",
     "named": false
   },
   {
@@ -1632,6 +1720,10 @@
   },
   {
     "type": "provide",
+    "named": false
+  },
+  {
+    "type": "qualifiers",
     "named": false
   },
   {
@@ -1649,6 +1741,10 @@
   {
     "type": "simple_word",
     "named": true
+  },
+  {
+    "type": "tail",
+    "named": false
   },
   {
     "type": "try",
@@ -1672,6 +1768,10 @@
   },
   {
     "type": "vsatisfies",
+    "named": false
+  },
+  {
+    "type": "which",
     "named": false
   },
   {

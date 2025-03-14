@@ -67,7 +67,7 @@ module.exports = grammar({
           PREC.after_delay,
           seq("after", $.number, optional($._word)), // after ms { return }
         ),
-        seq("after", "cancel", choice($.simple_word, repeat($.simple_word))), // after cancel id/script
+        seq("after", "chancel", choice($.simple_word, repeat($.simple_word))), // after cancel id/script
         seq("after", "idle", repeat($.simple_word)), // after idle scripts
         seq("after", "info", optional($.simple_word)), // after info ?id?
       ),
@@ -111,7 +111,31 @@ module.exports = grammar({
 
     global: ($) => seq("global", repeat($._concat_word)),
 
-    namespace: ($) => seq("namespace", $.word_list),
+    namespace: ($) =>
+      seq(
+        "namespace",
+        choice(
+          seq("children", optional($.simple_word), optional($.simple_word)), // namespace children ?namespace? ?pattern?
+          seq("code", $._word), // namespace code script
+          "current", // namespace current
+          seq("delete", repeat1($.simple_word)), // namespace delete ?namespace namespace ...?
+          seq("eval", $.simple_word, repeat($._word)), // namespace eval namespace arg ?arg ...?
+          seq("exists", $.simple_word), // namespace exists namespace
+          seq("export", optional("-clear"), repeat($.simple_word)), // namespace export ?-clear? ?pattern pattern ...?
+          seq("forget", repeat($.simple_word)), // namespace forget ?pattern pattern ...?
+          seq("import", optional("-force"), repeat($.simple_word)), // namespace import ?-force? ?pattern pattern ...?
+          seq("inscope", $.simple_word, $._word, repeat($._word)), // namespace inscope namespace script ?arg ...?
+          seq("origin", $.simple_word), // namespace origin command
+          seq("parent", optional($.simple_word)), // namespace parent ?namespace?
+          seq("qualifiers", $.simple_word), // namespace qualifiers string
+          seq("tail", $.simple_word), // namespace tail string
+          seq(
+            "which",
+            optional(choice("-command", "-variable")),
+            $.simple_word,
+          ), // namespace which ?-command? ?-variable? name
+        ),
+      ),
 
     try: ($) =>
       seq(
