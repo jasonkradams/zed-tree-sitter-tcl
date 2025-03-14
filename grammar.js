@@ -31,7 +31,10 @@ module.exports = grammar({
 
   extras: ($) => [/\s+/, /\\\r?\n/],
 
-  conflicts: ($) => [[$.after]],
+  conflicts: ($) => [
+    [$.after], // Existing conflict resolution for `after`
+    [$.while, $.expr], // Resolves conflict between `while` and `expr`
+  ],
 
   rules: {
     source_file: ($) => repeat(seq(optional($._command), $._terminator)),
@@ -103,7 +106,14 @@ module.exports = grammar({
         repeat($._concat_word),
       ),
 
-    while: ($) => seq("while", $.expr, $._word),
+    while: ($) =>
+      prec.left(
+        seq(
+          "while",
+          choice(seq("{", $._expr, "}"), $.expr),
+          choice($.braced_word, $._word),
+        ),
+      ),
 
     expr_cmd: ($) => seq("expr", $.expr),
 

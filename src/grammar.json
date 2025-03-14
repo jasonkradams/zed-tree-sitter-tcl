@@ -367,21 +367,56 @@
       ]
     },
     "while": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "while"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_word"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "while"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "{"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_expr"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "}"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expr"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "braced_word"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_word"
+              }
+            ]
+          }
+        ]
+      }
     },
     "expr_cmd": {
       "type": "SEQ",
@@ -2288,6 +2323,10 @@
   "conflicts": [
     [
       "after"
+    ],
+    [
+      "while",
+      "expr"
     ]
   ],
   "precedences": [],

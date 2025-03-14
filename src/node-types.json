@@ -1313,7 +1313,15 @@
           "named": true
         },
         {
+          "type": "binop_expr",
+          "named": true
+        },
+        {
           "type": "braced_word",
+          "named": true
+        },
+        {
+          "type": "braced_word_simple",
           "named": true
         },
         {
@@ -1334,6 +1342,14 @@
         },
         {
           "type": "simple_word",
+          "named": true
+        },
+        {
+          "type": "ternary_expr",
+          "named": true
+        },
+        {
+          "type": "unary_expr",
           "named": true
         },
         {
