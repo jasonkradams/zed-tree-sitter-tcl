@@ -283,17 +283,20 @@ module.exports = grammar({
     catch: ($) => seq("catch", $._word, optional($._concat_word)),
 
     quoted_word: ($) =>
-      seq(
-        '"',
-        repeat(
-          choice(
-            $.variable_substitution,
-            $._quoted_word_content,
-            $.command_substitution,
-            $.escaped_character,
+      choice(
+        '""', // Explicitly allow an empty string
+        seq(
+          '"',
+          repeat(
+            choice(
+              $.variable_substitution,
+              $._quoted_word_content,
+              $.command_substitution,
+              $.escaped_character,
+            ),
           ),
+          '"',
         ),
-        '"',
       ),
 
     escaped_character: (_) => /\\./,
