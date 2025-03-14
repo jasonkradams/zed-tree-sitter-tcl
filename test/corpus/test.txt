@@ -73,14 +73,15 @@ foreach a {1 2 3 4 5} {
 
 (source_file
   (foreach
-    (arguments
-      (simple_word))
-    (braced_word_simple
-      (simple_word)
-      (simple_word)
-      (simple_word)
-      (simple_word)
-      (simple_word))
+    (simple_word)
+     (braced_word
+       (command
+         (simple_word)
+         (word_list
+           (simple_word)
+           (simple_word)
+           (simple_word)
+           (simple_word))))
     (braced_word
       (command
         (simple_word)
