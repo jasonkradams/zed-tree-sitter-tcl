@@ -90,6 +90,105 @@
         {
           "type": "SYMBOL",
           "name": "regexp"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package"
+        }
+      ]
+    },
+    "package": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "package"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "forget"
+            },
+            {
+              "type": "STRING",
+              "value": "ifneeded"
+            },
+            {
+              "type": "STRING",
+              "value": "names"
+            },
+            {
+              "type": "STRING",
+              "value": "present"
+            },
+            {
+              "type": "STRING",
+              "value": "provide"
+            },
+            {
+              "type": "STRING",
+              "value": "require"
+            },
+            {
+              "type": "STRING",
+              "value": "unknown"
+            },
+            {
+              "type": "STRING",
+              "value": "vcompare"
+            },
+            {
+              "type": "STRING",
+              "value": "versions"
+            },
+            {
+              "type": "STRING",
+              "value": "vsatisfies"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "-exact"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "simple_word"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "simple_word"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

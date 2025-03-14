@@ -43,6 +43,7 @@
 (command
   name: (simple_word) @function.builtin
   (#any-of? @function.builtin
+   "after"
    "cd"
    "exec"
    "exit"

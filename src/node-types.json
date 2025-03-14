@@ -175,6 +175,10 @@
           "named": true
         },
         {
+          "type": "package",
+          "named": true
+        },
+        {
           "type": "procedure",
           "named": true
         },
@@ -367,6 +371,10 @@
         },
         {
           "type": "namespace",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -763,6 +771,21 @@
     }
   },
   {
+    "type": "package",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "simple_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "procedure",
     "named": true,
     "fields": {
@@ -998,6 +1021,10 @@
         },
         {
           "type": "namespace",
+          "named": true
+        },
+        {
+          "type": "package",
           "named": true
         },
         {
@@ -1338,6 +1365,10 @@
     "named": false
   },
   {
+    "type": "-exact",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -1438,6 +1469,10 @@
     "named": false
   },
   {
+    "type": "forget",
+    "named": false
+  },
+  {
     "type": "global",
     "named": false
   },
@@ -1446,7 +1481,15 @@
     "named": false
   },
   {
+    "type": "ifneeded",
+    "named": false
+  },
+  {
     "type": "in",
+    "named": false
+  },
+  {
+    "type": "names",
     "named": false
   },
   {
@@ -1466,11 +1509,27 @@
     "named": false
   },
   {
+    "type": "package",
+    "named": false
+  },
+  {
+    "type": "present",
+    "named": false
+  },
+  {
     "type": "proc",
     "named": false
   },
   {
+    "type": "provide",
+    "named": false
+  },
+  {
     "type": "regexp",
+    "named": false
+  },
+  {
+    "type": "require",
     "named": false
   },
   {
@@ -1486,8 +1545,24 @@
     "named": false
   },
   {
+    "type": "unknown",
+    "named": false
+  },
+  {
     "type": "unpack",
     "named": true
+  },
+  {
+    "type": "vcompare",
+    "named": false
+  },
+  {
+    "type": "versions",
+    "named": false
+  },
+  {
+    "type": "vsatisfies",
+    "named": false
   },
   {
     "type": "while",

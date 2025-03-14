@@ -39,17 +39,38 @@ module.exports = grammar({
 
     _builtin: ($) =>
       choice(
+        $.catch,
         $.conditional,
+        $.expr_cmd,
+        $.foreach,
         $.global,
         $.namespace,
+        $.package,
         $.procedure,
+        $.regexp,
         $.set,
         $.try,
-        $.foreach,
-        $.expr_cmd,
         $.while,
-        $.catch,
-        $.regexp,
+      ),
+
+    package: ($) =>
+      seq(
+        "package",
+        choice(
+          "forget",
+          "ifneeded",
+          "names",
+          "present",
+          "provide",
+          "require",
+          "unknown",
+          "vcompare",
+          "versions",
+          "vsatisfies",
+        ),
+        optional(
+          seq(optional("-exact"), $.simple_word, optional($.simple_word)),
+        ),
       ),
 
     // regexp ?switches? exp string ?matchVar? ?subMatchVar subMatchVar ...?
