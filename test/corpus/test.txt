@@ -393,8 +393,6 @@ namespace eval ::ns {
 
 (source_file
   (namespace
-    (word_list
-      (simple_word)
-      (simple_word)
+    (simple_word)
       (braced_word
-        (comment)))))
+        (comment))))
