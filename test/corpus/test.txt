@@ -97,9 +97,13 @@ if $hello {
     echo hi
 } elseif $hello {
     echo hi
+} elseif {$openindex==-1} {
+    # comment
 } else {
     echo bye
 }
+
+
 
 --------------------------------------------------------------------------------
 
@@ -122,6 +126,13 @@ if $hello {
           (simple_word)
           (word_list
             (simple_word)))))
+    (elseif
+        (expr
+        (binop_expr
+            (variable_substitution
+            (id))))
+        (braced_word
+        (comment)))
     (else
       (braced_word
         (command

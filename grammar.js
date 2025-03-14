@@ -43,9 +43,6 @@ module.exports = grammar({
 
     comment: (_) => /#[^\n]*/,
 
-    digit: (_) => token(/[0-9]/),
-    number: ($) => token(/[0-9]+/),
-
     _builtin: ($) =>
       choice(
         $.after,
@@ -68,7 +65,7 @@ module.exports = grammar({
       choice(
         prec(
           PREC.after_delay,
-          seq("after", $.number, optional($._word)), // after ms { return }
+          seq("after", $._number, optional($._word)), // after ms { return }
         ),
         seq("after", "chancel", choice($.simple_word, repeat($.simple_word))), // after cancel id/script
         seq("after", "idle", repeat($.simple_word)), // after idle scripts
@@ -288,7 +285,15 @@ module.exports = grammar({
 
     arguments: ($) => choice(seq("{", repeat($.argument), "}"), $.simple_word),
 
-    _number: ($) => /[0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?/,
+    _number: ($) =>
+      token(
+        seq(
+          optional("-"), // Allow optional negative sign
+          /[0-9]+(\.[0-9]+)?/, // Integer or floating-point number
+          optional(/[eE][+-]?[0-9]+/), // Scientific notation (e.g., `2.3e10`)
+        ),
+      ),
+
     _boolean: ($) =>
       token(choice("1", "0", /[Tt][Rr][Uu][Ee]/, /[Ff][Aa][Ll][Ss][Ee]/)),
 

@@ -44,20 +44,6 @@
       "type": "PATTERN",
       "value": "#[^\\n]*"
     },
-    "digit": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[0-9]"
-      }
-    },
-    "number": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[0-9]+"
-      }
-    },
     "_builtin": {
       "type": "CHOICE",
       "members": [
@@ -134,7 +120,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "number"
+                "name": "_number"
               },
               {
                 "type": "CHOICE",
@@ -1596,8 +1582,40 @@
       ]
     },
     "_number": {
-      "type": "PATTERN",
-      "value": "[0-9]+(\\.[0-9]+)?([eE][+-]?[0-9]+)?"
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "-"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9]+(\\.[0-9]+)?"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[eE][+-]?[0-9]+"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_boolean": {
       "type": "TOKEN",

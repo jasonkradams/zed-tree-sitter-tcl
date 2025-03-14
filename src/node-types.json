@@ -24,10 +24,6 @@
           "named": true
         },
         {
-          "type": "number",
-          "named": true
-        },
-        {
           "type": "quoted_word",
           "named": true
         },
@@ -1704,10 +1700,6 @@
   {
     "type": "ni",
     "named": false
-  },
-  {
-    "type": "number",
-    "named": true
   },
   {
     "type": "on",
