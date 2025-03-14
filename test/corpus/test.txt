@@ -144,7 +144,7 @@ if $hello {
 Command substitution
 ================================================================================
 
-echo [echo hello]
+puts [puts hello]
 
 --------------------------------------------------------------------------------
 
@@ -154,9 +154,9 @@ echo [echo hello]
     (word_list
       (command_substitution
         (command
-          (simple_word)
-          (word_list
-            (simple_word)))))))
+          (simple_word))
+            (command
+              (simple_word))))))
 
 ================================================================================
 Escaped string
@@ -271,6 +271,48 @@ expr {$var eq "sec" && $bar}
           (quoted_word))
         (variable_substitution
           (id))))))
+
+================================================================================
+Expr subcommand
+================================================================================
+
+set openlength [expr [string length $opendelimiter]+1]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (set
+    (id)
+    (command_substitution
+      (expr_cmd
+        (expr
+          (command_substitution
+            (command
+              (simple_word))
+            (command
+              (simple_word))
+            (command
+              (variable_substitution
+                (id))))))
+      (command
+        (simple_word)))))
+
+================================================================================
+Expr signed
+================================================================================
+
+set x [expr {-123 + +456 - 789}]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (set
+    (id)
+    (command_substitution
+      (expr_cmd
+        (expr
+          (binop_expr
+            (binop_expr)))))))
 
 ================================================================================
 Set array

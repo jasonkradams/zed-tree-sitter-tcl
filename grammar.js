@@ -34,6 +34,7 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.after], // Existing conflict resolution for `after`
     [$.while, $.expr], // Resolves conflict between `while` and `expr`
+    [$._expr_atom_no_brace, $._expr],
   ],
 
   rules: {
@@ -73,50 +74,56 @@ module.exports = grammar({
       ),
 
     append: ($) =>
-      seq(
-        "append",
-        field("variable", $.simple_word),
-        repeat(
-          field(
-            "value",
-            choice(
-              $.simple_word,
-              $.variable_substitution,
-              $.quoted_word,
-              $.braced_word,
-              $.command_substitution,
+      prec.left(
+        seq(
+          "append",
+          field("variable", $.simple_word), // Variable name
+          repeat(
+            field(
+              "value",
+              choice(
+                $.simple_word,
+                $.variable_substitution,
+                $.quoted_word,
+                $.braced_word,
+                $.command_substitution,
+              ),
             ),
           ),
         ),
       ),
 
     package: ($) =>
-      seq(
-        "package",
-        choice(
-          "forget",
-          "ifneeded",
-          "names",
-          "present",
-          "provide",
-          "require",
-          "unknown",
-          "vcompare",
-          "versions",
-          "vsatisfies",
-        ),
-        optional(
-          seq(optional("-exact"), $.simple_word, optional($.simple_word)),
+      prec.left(
+        seq(
+          "package",
+          choice(
+            "forget",
+            "ifneeded",
+            "names",
+            "present",
+            "provide",
+            "require",
+            "unknown",
+            "vcompare",
+            "versions",
+            "vsatisfies",
+          ),
+          optional(
+            seq(optional("-exact"), $.simple_word, optional($.simple_word)),
+          ),
         ),
       ),
 
     // regexp ?switches? exp string ?matchVar? ?subMatchVar subMatchVar ...?
     regexp: ($) =>
-      seq(
-        "regexp",
-        $._word_simple, // exp
-        $._concat_word, // string
-        repeat($._concat_word),
+      prec.left(
+        seq(
+          "regexp",
+          $._word_simple, // exp
+          $._concat_word, // string
+          repeat($._concat_word),
+        ),
       ),
 
     while: ($) =>
@@ -131,37 +138,41 @@ module.exports = grammar({
     expr_cmd: ($) => seq("expr", $.expr),
 
     foreach: ($) =>
-      seq(
-        "foreach",
-        repeat1(seq($._word, $._word)), // Supports multiple var-list pairs
-        $._word, // Body
+      prec.left(
+        seq(
+          "foreach",
+          repeat1(seq($._word, $._word)), // Supports multiple var-list pairs
+          $._word, // Body
+        ),
       ),
 
-    global: ($) => seq("global", repeat1($.simple_word)),
+    global: ($) => prec.left(seq("global", repeat1($.simple_word))),
 
     namespace: ($) =>
-      seq(
-        "namespace",
-        choice(
-          seq("children", optional($.simple_word), optional($.simple_word)), // namespace children ?namespace? ?pattern?
-          seq("code", $._word), // namespace code script
-          "current", // namespace current
-          seq("delete", repeat1($.simple_word)), // namespace delete ?namespace namespace ...?
-          seq("eval", $.simple_word, repeat($._word)), // namespace eval namespace arg ?arg ...?
-          seq("exists", $.simple_word), // namespace exists namespace
-          seq("export", optional("-clear"), repeat($.simple_word)), // namespace export ?-clear? ?pattern pattern ...?
-          seq("forget", repeat($.simple_word)), // namespace forget ?pattern pattern ...?
-          seq("import", optional("-force"), repeat($.simple_word)), // namespace import ?-force? ?pattern pattern ...?
-          seq("inscope", $.simple_word, $._word, repeat($._word)), // namespace inscope namespace script ?arg ...?
-          seq("origin", $.simple_word), // namespace origin command
-          seq("parent", optional($.simple_word)), // namespace parent ?namespace?
-          seq("qualifiers", $.simple_word), // namespace qualifiers string
-          seq("tail", $.simple_word), // namespace tail string
-          seq(
-            "which",
-            optional(choice("-command", "-variable")),
-            $.simple_word,
-          ), // namespace which ?-command? ?-variable? name
+      prec.left(
+        seq(
+          "namespace", // The `namespace` keyword.
+          choice(
+            seq("children", optional($.simple_word), optional($.simple_word)), // `namespace children ?namespace? ?pattern?`
+            seq("code", $._word), // `namespace code script`
+            "current", // `namespace current`
+            seq("delete", repeat1($.simple_word)), // `namespace delete ?namespace namespace ...?`
+            seq("eval", $.simple_word, repeat($._word)), // `namespace eval namespace arg ?arg ...?`
+            seq("exists", $.simple_word), // `namespace exists namespace`
+            seq("export", optional("-clear"), repeat($.simple_word)), // `namespace export ?-clear? ?pattern pattern ...?`
+            seq("forget", repeat($.simple_word)), // `namespace forget ?pattern pattern ...?`
+            seq("import", optional("-force"), repeat($.simple_word)), // `namespace import ?-force? ?pattern pattern ...?`
+            seq("inscope", $.simple_word, $._word, repeat($._word)), // `namespace inscope namespace script ?arg ...?`
+            seq("origin", $.simple_word), // `namespace origin command`
+            seq("parent", optional($.simple_word)), // `namespace parent ?namespace?`
+            seq("qualifiers", $.simple_word), // `namespace qualifiers string`
+            seq("tail", $.simple_word), // `namespace tail string`
+            seq(
+              "which",
+              optional(choice("-command", "-variable")), // `namespace which ?-command? ?-variable? name`
+              $.simple_word,
+            ),
+          ),
         ),
       ),
 
@@ -178,9 +189,14 @@ module.exports = grammar({
     _command: ($) => choice($._builtin, $.comment, $.command),
 
     command: ($) =>
-      seq(field("name", $._word), optional(field("arguments", $.word_list))),
+      prec.left(
+        seq(
+          field("name", $._word), // Command name
+          optional(field("arguments", $.word_list)), // Optional arguments
+        ),
+      ),
 
-    word_list: ($) => repeat1($._word),
+    word_list: ($) => prec.left(repeat1($._word)),
 
     unpack: (_) => "{*}",
 
@@ -256,10 +272,15 @@ module.exports = grammar({
     braced_word_simple: ($) => seq("{", repeat($._word_simple), "}"),
 
     set: ($) =>
-      seq(
-        "set",
-        choice(seq($.id, optional($.array_index)), seq("$", "{", /[^}]+/, "}")),
-        optional($._word_simple),
+      prec.left(
+        seq(
+          "set",
+          choice(
+            seq($.id, optional($.array_index)),
+            seq("$", "{", /[^}]+/, "}"),
+          ),
+          optional($._word_simple),
+        ),
       ),
 
     procedure: ($) =>
@@ -288,7 +309,7 @@ module.exports = grammar({
     _number: ($) =>
       token(
         seq(
-          optional("-"), // Allow optional negative sign
+          optional(choice("-", "+")), // Allow optional negative sign
           /[0-9]+(\.[0-9]+)?/, // Integer or floating-point number
           optional(/[eE][+-]?[0-9]+/), // Scientific notation (e.g., `2.3e10`)
         ),
@@ -333,12 +354,24 @@ module.exports = grammar({
         $.escaped_character,
         seq("(", $._expr, ")"),
         $._expr_atom_no_brace,
+        $.command_substitution,
 
         // As a string enclosed in braces. The characters between the open
         // brace and matching close brace will be used as the operand without
         // any substitutions.
         $.braced_word_simple,
       ),
+
+    // _expr: ($) =>
+    //   choice(
+    //     $.unary_expr,
+    //     $.binop_expr,
+    //     $.ternary_expr,
+    //     $.escaped_character,
+    //     seq("(", $._expr, ")"),
+    //     $._expr_atom_no_brace,
+    //     $.braced_word_simple,
+    //   ),
 
     expr: ($) => choice(seq("{", $._expr, "}"), $._expr_atom_no_brace),
 
@@ -382,7 +415,7 @@ module.exports = grammar({
       ),
 
     // catch script ?varName?
-    catch: ($) => seq("catch", $._word, optional($._concat_word)),
+    catch: ($) => prec.left(seq("catch", $._word, optional($._concat_word))),
 
     quoted_word: ($) =>
       choice(
@@ -405,7 +438,12 @@ module.exports = grammar({
 
     _quoted_word_content: (_) => token(prec(-1, /[^$\\\[\]"]+/)),
 
-    command_substitution: ($) => seq("[", $._command, "]"),
+    command_substitution: ($) =>
+      seq(
+        "[",
+        optional(seq($._command, repeat(choice($._terminator, $._command)))),
+        "]",
+      ),
 
     simple_word: (_) => /[^!$\s\\\[\]{}();"]+/,
   },
