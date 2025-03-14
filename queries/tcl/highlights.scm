@@ -1,5 +1,5 @@
 
-(comment) @comment @spell
+(comment) @comment
 
 (command name: (simple_word) @function)
 
@@ -40,7 +40,8 @@
 
 "expr" @function.builtin
 
-(command name: (simple_word) @function.builtin
+(command
+  name: (simple_word) @function.builtin
   (#any-of? @function.builtin
    "after"
    "append"
@@ -57,9 +58,6 @@
    "subst"
    "trace"
    "source"))
-
-(package) @keyword
-(after) @function.builtin
 
 (command name: (simple_word) @keyword
          (#any-of? @keyword
@@ -90,7 +88,8 @@
           "switch"
           "throw"
           "unset"
-          "variable"))
+          "variable"
+          "while"))
 
 [
  "error"
@@ -105,7 +104,6 @@
 [
  "while"
  "foreach"
- ; "for"
  ] @repeat
 
 [
