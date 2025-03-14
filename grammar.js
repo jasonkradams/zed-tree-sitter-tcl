@@ -39,6 +39,7 @@ module.exports = grammar({
 
     _builtin: ($) =>
       choice(
+        $.append,
         $.catch,
         $.conditional,
         $.expr_cmd,
@@ -52,6 +53,8 @@ module.exports = grammar({
         $.try,
         $.while,
       ),
+
+    append: ($) => seq("append", $.simple_word, repeat($.simple_word)),
 
     package: ($) =>
       seq(

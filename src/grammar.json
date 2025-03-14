@@ -49,7 +49,23 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "append"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "catch"
+        },
+        {
+          "type": "SYMBOL",
           "name": "conditional"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr_cmd"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "foreach"
         },
         {
           "type": "SYMBOL",
@@ -61,7 +77,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "package"
+        },
+        {
+          "type": "SYMBOL",
           "name": "procedure"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "regexp"
         },
         {
           "type": "SYMBOL",
@@ -73,27 +97,27 @@
         },
         {
           "type": "SYMBOL",
-          "name": "foreach"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expr_cmd"
-        },
-        {
-          "type": "SYMBOL",
           "name": "while"
+        }
+      ]
+    },
+    "append": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "append"
         },
         {
           "type": "SYMBOL",
-          "name": "catch"
+          "name": "simple_word"
         },
         {
-          "type": "SYMBOL",
-          "name": "regexp"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package"
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "simple_word"
+          }
         }
       ]
     },

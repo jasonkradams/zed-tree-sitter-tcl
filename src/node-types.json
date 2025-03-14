@@ -1,5 +1,20 @@
 [
   {
+    "type": "append",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "simple_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "argument",
     "named": true,
     "fields": {
@@ -142,6 +157,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "append",
+          "named": true
+        },
         {
           "type": "catch",
           "named": true
@@ -341,6 +360,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "append",
+          "named": true
+        },
         {
           "type": "catch",
           "named": true
@@ -992,6 +1015,10 @@
       "required": false,
       "types": [
         {
+          "type": "append",
+          "named": true
+        },
+        {
           "type": "catch",
           "named": true
         },
@@ -1426,6 +1453,10 @@
   },
   {
     "type": "^",
+    "named": false
+  },
+  {
+    "type": "append",
     "named": false
   },
   {
