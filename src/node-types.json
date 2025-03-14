@@ -201,6 +201,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "quoted_word",
           "named": true
         },
@@ -509,59 +513,73 @@
     "type": "conditional",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "array_index",
+            "named": true
+          },
+          {
+            "type": "braced_word",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "escaped_character",
+            "named": true
+          },
+          {
+            "type": "quoted_word",
+            "named": true
+          },
+          {
+            "type": "simple_word",
+            "named": true
+          },
+          {
+            "type": "unpack",
+            "named": true
+          },
+          {
+            "type": "variable_substitution",
+            "named": true
+          }
+        ]
+      },
       "condition": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
             "type": "expr",
             "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
           }
         ]
       }
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "array_index",
-          "named": true
-        },
-        {
-          "type": "braced_word",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
         {
           "type": "else",
           "named": true
         },
         {
           "type": "elseif",
-          "named": true
-        },
-        {
-          "type": "escaped_character",
-          "named": true
-        },
-        {
-          "type": "quoted_word",
-          "named": true
-        },
-        {
-          "type": "simple_word",
-          "named": true
-        },
-        {
-          "type": "unpack",
-          "named": true
-        },
-        {
-          "type": "variable_substitution",
           "named": true
         }
       ]
@@ -689,6 +707,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "quoted_word",
           "named": true
         },
@@ -772,41 +794,52 @@
   {
     "type": "foreach",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "array_index",
+            "named": true
+          },
+          {
+            "type": "braced_word",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "escaped_character",
+            "named": true
+          },
+          {
+            "type": "quoted_word",
+            "named": true
+          },
+          {
+            "type": "simple_word",
+            "named": true
+          },
+          {
+            "type": "unpack",
+            "named": true
+          },
+          {
+            "type": "variable_substitution",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "array_index",
-          "named": true
-        },
-        {
           "type": "braced_word",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "escaped_character",
-          "named": true
-        },
-        {
-          "type": "quoted_word",
-          "named": true
-        },
-        {
-          "type": "simple_word",
-          "named": true
-        },
-        {
-          "type": "unpack",
-          "named": true
-        },
-        {
-          "type": "variable_substitution",
           "named": true
         }
       ]
@@ -1188,6 +1221,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "quoted_word",
           "named": true
         },
@@ -1286,6 +1323,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "quoted_word",
           "named": true
         },
@@ -1330,64 +1371,63 @@
   {
     "type": "while",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "array_index",
-          "named": true
-        },
-        {
-          "type": "binop_expr",
-          "named": true
-        },
-        {
-          "type": "braced_word",
-          "named": true
-        },
-        {
-          "type": "braced_word_simple",
-          "named": true
-        },
-        {
-          "type": "command_substitution",
-          "named": true
-        },
-        {
-          "type": "escaped_character",
-          "named": true
-        },
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "quoted_word",
-          "named": true
-        },
-        {
-          "type": "simple_word",
-          "named": true
-        },
-        {
-          "type": "ternary_expr",
-          "named": true
-        },
-        {
-          "type": "unary_expr",
-          "named": true
-        },
-        {
-          "type": "unpack",
-          "named": true
-        },
-        {
-          "type": "variable_substitution",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "array_index",
+            "named": true
+          },
+          {
+            "type": "braced_word",
+            "named": true
+          },
+          {
+            "type": "command_substitution",
+            "named": true
+          },
+          {
+            "type": "escaped_character",
+            "named": true
+          },
+          {
+            "type": "quoted_word",
+            "named": true
+          },
+          {
+            "type": "simple_word",
+            "named": true
+          },
+          {
+            "type": "unpack",
+            "named": true
+          },
+          {
+            "type": "variable_substitution",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -1582,11 +1622,11 @@
     "named": false
   },
   {
-    "type": "catch",
+    "type": "cancel",
     "named": false
   },
   {
-    "type": "chancel",
+    "type": "catch",
     "named": false
   },
   {

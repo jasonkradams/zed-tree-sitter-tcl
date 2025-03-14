@@ -32,8 +32,8 @@ module.exports = grammar({
   extras: ($) => [/\s+/, /\\\r?\n/],
 
   conflicts: ($) => [
-    [$.after], // Existing conflict resolution for `after`
-    [$.while, $.expr], // Resolves conflict between `while` and `expr`
+    [$._word_simple, $._expr],
+    [$._word_simple, $._expr_atom_no_brace],
   ],
 
   rules: {
@@ -70,8 +70,12 @@ module.exports = grammar({
           PREC.after_delay,
           seq("after", $.number, optional($._word)), // after ms { return }
         ),
-        seq("after", "chancel", choice($.simple_word, repeat($.simple_word))), // after cancel id/script
-        seq("after", "idle", repeat($.simple_word)), // after idle scripts
+        seq(
+          "after",
+          "cancel",
+          optional(seq($.simple_word, repeat($.simple_word))),
+        ), // after cancel ?id script?
+        seq("after", "idle", repeat($.simple_word)), // after idle ?script?
         seq("after", "info", optional($.simple_word)), // after info ?id?
       ),
 
@@ -126,8 +130,8 @@ module.exports = grammar({
       prec.left(
         seq(
           "while",
-          choice(seq("{", $._expr, "}"), $.expr),
-          choice($.braced_word, $._word),
+          field("condition", choice($.expr, seq("{", $.expr, "}"))), // Ensure expressions are parsed correctly
+          field("body", choice($.braced_word, $._word)),
         ),
       ),
 
@@ -136,8 +140,8 @@ module.exports = grammar({
     foreach: ($) =>
       seq(
         "foreach",
-        repeat1(seq($._word, $._word)), // Supports multiple var-list pairs
-        $._word, // Body
+        repeat1(seq($.braced_word, $.braced_word)), // Handle multiple var-list pairs
+        field("body", $._word), // Allow both `{}` and simple words as body
       ),
 
     global: ($) => seq("global", repeat1($.simple_word)),
@@ -323,16 +327,13 @@ module.exports = grammar({
     _expr: ($) =>
       choice(
         $.unary_expr,
-        $.binop_expr,
+        prec.left(PREC.compare, $.binop_expr), // 🔥 Ensure binop_expr takes precedence
         $.ternary_expr,
         $.escaped_character,
         seq("(", $._expr, ")"),
-        $._expr_atom_no_brace,
-
-        // As a string enclosed in braces. The characters between the open
-        // brace and matching close brace will be used as the operand without
-        // any substitutions.
-        $.braced_word_simple,
+        prec.right(PREC.equal_string, $._expr_atom_no_brace),
+        prec.right(PREC.equal_bool, $.braced_word_simple),
+        prec.left(PREC.compare, seq("{", prec.left(PREC.compare, $.expr), "}")), // 🔥 Ensure `{expr}` is treated as an expression
       ),
 
     expr: ($) => choice(seq("{", $._expr, "}"), $._expr_atom_no_brace),
@@ -370,8 +371,8 @@ module.exports = grammar({
     conditional: ($) =>
       seq(
         "if",
-        field("condition", $.expr),
-        $._word,
+        field("condition", choice($.expr, seq("{", $.expr, "}"))),
+        field("body", $._word),
         repeat($.elseif),
         optional($.else),
       ),
