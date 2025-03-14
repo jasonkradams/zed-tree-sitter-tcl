@@ -58,6 +58,9 @@
    "trace"
    "source"))
 
+(package) @keyword
+(after) @function.builtin
+
 (command name: (simple_word) @keyword
          (#any-of? @keyword
           "break"
