@@ -1,68 +1,47 @@
 ================================================================================
-Regexp
+Escaped string
 ================================================================================
 
-regexp {\d} $var m b
+echo "word$hi \$bye word"
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (regexp
-    (braced_word_simple
-        (escaped_character))
-    (variable_substitution
-      (id))
+  (command
     (simple_word)
-    (simple_word)))
+    (word_list
+      (quoted_word
+        (variable_substitution
+          (id))
+        (escaped_character)))))
 
 ================================================================================
-Set array
+Slash in string
 ================================================================================
 
-set foo($i) 1
+set dir $build_dir/subdir
 
 --------------------------------------------------------------------------------
 
 (source_file
   (set
     (id)
-    (array_index
       (variable_substitution
-        (id)))
-    (simple_word)))
-
+        (id))
+      (simple_word)))
 
 ================================================================================
-Namespace id
+Curly in string
 ================================================================================
 
-set a $::var
-set a $::var::sub
+set v $a{b}
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (set (id) (variable_substitution (id)))
-  (set (id) (variable_substitution (id)))
-)
-
-================================================================================
-Empty statement block
-================================================================================
-
-if {1} {
-}
-
-if {1} {
-}
-
-
---------------------------------------------------------------------------------
-(source_file
-  (conditional
-    (expr)
-    (braced_word))
-  (conditional
-    (expr)
-    (braced_word))
-)
+  (set
+    (id)
+      (variable_substitution
+        (id))
+      (braced_word_simple
+        (simple_word))))

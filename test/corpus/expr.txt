@@ -1,0 +1,84 @@
+================================================================================
+Expr 'in'
+================================================================================
+
+if {$foo in {"basic"}} {}
+
+if {{foo} in {basic}} {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (conditional
+    (expr
+      (binop_expr
+        (variable_substitution
+          (id))
+        (braced_word_simple
+          (quoted_word))))
+        (braced_word))
+      (conditional
+        (expr
+          (binop_expr
+            (braced_word_simple
+              (simple_word))
+            (braced_word_simple
+              (simple_word))))
+    (braced_word)))
+
+================================================================================
+Expr eq and &&
+================================================================================
+
+expr {$var eq "sec" && $bar}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (expr_cmd
+    (expr
+      (binop_expr
+        (binop_expr
+          (variable_substitution
+            (id))
+          (quoted_word))
+        (variable_substitution
+          (id))))))
+
+================================================================================
+Expr subcommand brackets
+================================================================================
+
+expr {[string length $foo]+1}
+
+--------------------------------------------------------------------------------
+
+(source_file
+ (expr_cmd
+    (expr
+      (binop_expr
+        (command_substitution
+          (command
+            (simple_word))
+          (command
+            (simple_word))
+          (command
+            (variable_substitution
+              (id))))))))
+
+================================================================================
+Expr signed
+================================================================================
+
+set x [expr {-123 + +456 - 789}]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (set
+    (id)
+    (command_substitution
+      (expr_cmd
+        (expr
+          (binop_expr
+            (binop_expr)))))))
