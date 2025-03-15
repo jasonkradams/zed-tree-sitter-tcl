@@ -273,29 +273,25 @@ expr {$var eq "sec" && $bar}
           (id))))))
 
 ================================================================================
-Expr subcommand
+Expr subcommand brackets
 ================================================================================
 
-set openlength [expr [string length $opendelimiter]+1]
+expr {[string length $foo]+1}
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (set
-    (id)
-    (command_substitution
-      (expr_cmd
-        (expr
-          (command_substitution
-            (command
-              (simple_word))
-            (command
-              (simple_word))
-            (command
-              (variable_substitution
-                (id))))))
-      (command
-        (simple_word)))))
+ (expr_cmd
+    (expr
+      (binop_expr
+        (command_substitution
+          (command
+            (simple_word))
+          (command
+            (simple_word))
+          (command
+            (variable_substitution
+              (id))))))))
 
 ================================================================================
 Expr signed
