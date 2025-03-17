@@ -44,6 +44,10 @@ module.exports = grammar({
 
     comment: (_) => /#[^\n]*/,
 
+    // ------------------------------------------------------------------------
+    // Builtin Commands
+    // ------------------------------------------------------------------------
+
     _builtin: ($) =>
       choice(
         $.after,
@@ -57,6 +61,7 @@ module.exports = grammar({
         $.package,
         $.procedure,
         $.regexp,
+        $.regsub,
         $.set,
         $.try,
         $.while,
@@ -124,6 +129,72 @@ module.exports = grammar({
           $._concat_word, // string
           repeat($._concat_word),
         ),
+      ),
+
+    // ------------------------------------------------------------------------
+    // regsub ?switches? exp string subSpec ?varName?
+    // ------------------------------------------------------------------------
+    // Add regsub to _builtin so that it’s recognized as a command.
+    _builtin: ($) =>
+      choice(
+        $.after,
+        $.append,
+        $.catch,
+        $.conditional,
+        $.expr_cmd,
+        $.foreach,
+        $.global,
+        $.namespace,
+        $.package,
+        $.procedure,
+        $.regexp,
+        $.regsub, // <-- our new regsub rule
+        $.set,
+        $.try,
+        $.while,
+      ),
+
+    // ------------------------------------------------------------------------
+    // regsub ?switches? exp string subSpec ?varName?
+    // ------------------------------------------------------------------------
+    regsub: ($) =>
+      prec.left(
+        seq(
+          token(prec(1, "regsub")),
+          optional($.regsub_switches),
+          field("pattern", $.regsub_literal),
+          field("input", $._word),
+          field("substitution", $.regsub_literal),
+          optional(field("varName", $.simple_word)),
+        ),
+      ),
+
+    regsub_switches: ($) => repeat1($.regsub_switch),
+
+    regsub_switch: ($) =>
+      choice(
+        "-all",
+        "-expanded",
+        "-line",
+        "-linestop",
+        "-lineanchor",
+        "-nocase",
+        seq("-start", $._number),
+        "--",
+      ),
+
+    /*
+        regsub_literal accepts an argument as one of:
+          - a braced literal (e.g. {pattern})
+          - a quoted literal (e.g. "pattern")
+          - a simple word (e.g. pattern)
+        Each is parsed as a single token.
+      */
+    regsub_literal: ($) =>
+      choice(
+        token(seq("{", /[^}]*/, "}")),
+        token(seq('"', /[^"]*/, '"')),
+        $.simple_word,
       ),
 
     while: ($) =>
