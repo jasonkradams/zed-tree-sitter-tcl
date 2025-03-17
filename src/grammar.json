@@ -1456,15 +1456,15 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SEQ",
               "members": [
-                {
-                  "type": "STRING",
-                  "value": "$"
-                },
                 {
                   "type": "ALIAS",
                   "content": {
@@ -1481,15 +1481,24 @@
               "members": [
                 {
                   "type": "STRING",
-                  "value": "$"
-                },
-                {
-                  "type": "STRING",
                   "value": "{"
                 },
                 {
-                  "type": "PATTERN",
-                  "value": "[^}]+"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "PATTERN",
+                          "value": "[^}]+"
+                        }
+                      ]
+                    }
+                  },
+                  "named": true,
+                  "value": "id"
                 },
                 {
                   "type": "STRING",

@@ -15,8 +15,8 @@
   name: (_) @variable.parameter
 )
 
-((simple_word) @variable.builtin
-               (#any-of? @variable.builtin
+((simple_word) @variable.special
+               (#any-of? @variable.special
                 "argc"
                 "argv"
                 "argv0"
@@ -61,7 +61,7 @@
 
 (package) @keyword
 (after) @function.builtin
-(while) @funtion.builtin
+(while) @function.builtin
 
 (command name: (simple_word) @keyword
          (#any-of? @keyword

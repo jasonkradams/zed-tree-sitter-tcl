@@ -321,9 +321,10 @@ module.exports = grammar({
 
     variable_substitution: ($) =>
       seq(
+        "$",
         choice(
-          seq("$", alias($._id_immediate, $.id)),
-          seq("$", "{", /[^}]+/, "}"),
+          seq(alias($._id_immediate, $.id)),
+          seq("{", alias(token(seq(/[^}]+/)), $.id), "}"),
         ),
         optional($.array_index),
       ),
