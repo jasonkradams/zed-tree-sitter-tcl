@@ -1,4 +1,3 @@
-
 (comment) @comment
 
 (command name: (simple_word) @function)
@@ -40,6 +39,15 @@
 
 "expr" @function.builtin
 
+(regsub) @function.builtin
+
+(regsub
+  (regsub_switches (regsub_switch) @keyword)?
+  pattern: (_) @string.regex
+  input: (_) @variable
+  substitution: (_) @string
+  varName: (_) @variable)
+
 (command
   name: (simple_word) @function.builtin
   (#any-of? @function.builtin
@@ -53,7 +61,6 @@
    "join"
    "puts"
    "regexp"
-   "regsub"
    "split"
    "subst"
    "trace"

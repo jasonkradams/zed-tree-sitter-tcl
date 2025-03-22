@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "tcl",
+      "camelcase": "Tcl",
+      "title": "Tcl",
+      "scope": "source.tcl",
+      "file-types": ["tcl", "tm", "tk"],
+      "injection-regex": "^tcl$",
+      "class-name": "TreeSitterTcl"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tcl grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Jason Adams",
+        "email": "jason.k.r.adams@gmail.com",
+        "url": "https://jadams.pw/"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/jasonkradams/zed-tree-sitter-tcl"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}

@@ -477,50 +477,66 @@
       }
     },
     "regsub_switch": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "-all"
-        },
-        {
-          "type": "STRING",
-          "value": "-expanded"
-        },
-        {
-          "type": "STRING",
-          "value": "-line"
-        },
-        {
-          "type": "STRING",
-          "value": "-linestop"
-        },
-        {
-          "type": "STRING",
-          "value": "-lineanchor"
-        },
-        {
-          "type": "STRING",
-          "value": "-nocase"
-        },
-        {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "-start"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "-all"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-expanded"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-line"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-linestop"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-lineanchor"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-nocase"
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "-start"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_number"
+                    }
+                  ]
+                },
+                {
+                  "type": "STRING",
+                  "value": "--"
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "_number"
+              "type": "STRING",
+              "value": " "
             }
           ]
-        },
-        {
-          "type": "STRING",
-          "value": "--"
         }
-      ]
+      }
     },
     "regsub_literal": {
       "type": "CHOICE",
@@ -1488,13 +1504,8 @@
                   "content": {
                     "type": "TOKEN",
                     "content": {
-                      "type": "SEQ",
-                      "members": [
-                        {
-                          "type": "PATTERN",
-                          "value": "[^}]+"
-                        }
-                      ]
+                      "type": "PATTERN",
+                      "value": "[^}]+"
                     }
                   },
                   "named": true,

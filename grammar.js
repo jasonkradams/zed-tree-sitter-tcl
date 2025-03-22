@@ -1,3 +1,12 @@
+/**
+ * @file Tcl grammar for tree-sitter
+ * @author Jason Adams <jason.k.r.adams@gmail.com>
+ * @license MIT
+ */
+
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 // Taken from the expr man page
 const PREC = {
   after_delay: 160, // Prioritize "after ms"
@@ -131,10 +140,6 @@ module.exports = grammar({
         ),
       ),
 
-    // ------------------------------------------------------------------------
-    // regsub ?switches? exp string subSpec ?varName?
-    // ------------------------------------------------------------------------
-    // Add regsub to _builtin so that it’s recognized as a command.
     _builtin: ($) =>
       choice(
         $.after,
@@ -148,7 +153,7 @@ module.exports = grammar({
         $.package,
         $.procedure,
         $.regexp,
-        $.regsub, // <-- our new regsub rule
+        $.regsub,
         $.set,
         $.try,
         $.while,
@@ -172,24 +177,31 @@ module.exports = grammar({
     regsub_switches: ($) => repeat1($.regsub_switch),
 
     regsub_switch: ($) =>
-      choice(
-        "-all",
-        "-expanded",
-        "-line",
-        "-linestop",
-        "-lineanchor",
-        "-nocase",
-        seq("-start", $._number),
-        "--",
+      prec.left(
+        repeat1(
+          seq(
+            choice(
+              "-all",
+              "-expanded",
+              "-line",
+              "-linestop",
+              "-lineanchor",
+              "-nocase",
+              seq("-start", $._number),
+              "--",
+            ),
+            " ",
+          ),
+        ),
       ),
 
     /*
-        regsub_literal accepts an argument as one of:
-          - a braced literal (e.g. {pattern})
-          - a quoted literal (e.g. "pattern")
-          - a simple word (e.g. pattern)
-        Each is parsed as a single token.
-      */
+      regsub_literal accepts an argument as one of:
+        - a braced literal (e.g. {pattern})
+        - a quoted literal (e.g. "pattern")
+        - a simple word (e.g. pattern)
+      Each is parsed as a single token.
+    */
     regsub_literal: ($) =>
       choice(
         token(seq("{", /[^}]*/, "}")),
@@ -324,7 +336,7 @@ module.exports = grammar({
         "$",
         choice(
           seq(alias($._id_immediate, $.id)),
-          seq("{", alias(token(seq(/[^}]+/)), $.id), "}"),
+          seq("{", alias(token(/[^}]+/), $.id), "}"),
         ),
         optional($.array_index),
       ),
@@ -433,17 +445,6 @@ module.exports = grammar({
         // any substitutions.
         $.braced_word_simple,
       ),
-
-    // _expr: ($) =>
-    //   choice(
-    //     $.unary_expr,
-    //     $.binop_expr,
-    //     $.ternary_expr,
-    //     $.escaped_character,
-    //     seq("(", $._expr, ")"),
-    //     $._expr_atom_no_brace,
-    //     $.braced_word_simple,
-    //   ),
 
     expr: ($) => choice(seq("{", $._expr, "}"), $._expr_atom_no_brace),
 
