@@ -38,7 +38,7 @@ module.exports = grammar({
 
   inline: ($) => [$._builtin, $._terminator, $._word],
 
-  extras: ($) => [/\s+/, /\\\r?\n/],
+  extras: ($) => [/\s+/, /\\\r?\n/, $.end_of_line_comment],
 
   conflicts: ($) => [
     [$.after], // Existing conflict resolution for `after`
@@ -47,11 +47,13 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: ($) => repeat(seq(optional($._command), $._terminator)),
+    source_file: ($) =>
+      repeat(seq(optional(choice($.comment, $._command)), $._terminator)),
 
     _terminator: (_) => choice("\n", ";"),
 
     comment: (_) => /#[^\n]*/,
+    end_of_line_comment: (_) => /;(\s+)?#[^\n]*/,
 
     // ------------------------------------------------------------------------
     // Builtin Commands
@@ -269,7 +271,7 @@ module.exports = grammar({
 
     finally: ($) => seq("finally", $._word),
 
-    _command: ($) => choice($._builtin, $.comment, $.command),
+    _command: ($) => choice($._builtin, $.command),
 
     command: ($) =>
       prec.left(
