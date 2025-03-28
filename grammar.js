@@ -62,6 +62,7 @@ module.exports = grammar({
       $.while,
       $.catch,
       $.regexp,
+      $.regsub,
     ),
 
     // regexp ?switches? exp string ?matchVar? ?subMatchVar subMatchVar ...?
@@ -71,6 +72,55 @@ module.exports = grammar({
       $._concat_word, // string
       repeat($._concat_word),
     ),
+
+    // ------------------------------------------------------------------------
+    // regsub ?switches? exp string subSpec ?varName?
+    // ------------------------------------------------------------------------
+    regsub: $ => prec.left(
+      seq(
+        token(prec(1, "regsub")),
+        optional($.regsub_switches),
+        field("pattern", $.regsub_literal),
+        field("input", $._word),
+        field("substitution", $.regsub_literal),
+        optional(field("varName", $.simple_word)),
+      ),
+    ),
+
+    regsub_switches: ($) => repeat1($.regsub_switch),
+
+    regsub_switch: ($) =>
+      prec.left(
+        repeat1(
+          seq(
+            choice(
+              "-all",
+              "-expanded",
+              "-line",
+              "-linestop",
+              "-lineanchor",
+              "-nocase",
+              seq("-start", $.number),
+              "--",
+            ),
+            " ",
+          ),
+        ),
+      ),
+
+    /*
+          regsub_literal accepts an argument as one of:
+            - a braced literal (e.g. {pattern})
+            - a quoted literal (e.g. "pattern")
+            - a simple word (e.g. pattern)
+          Each is parsed as a single token.
+        */
+    regsub_literal: ($) =>
+      choice(
+        token(seq("{", /[^}]*/, "}")),
+        token(seq('"', /[^"]*/, '"')),
+        $.simple_word,
+      ),
 
     while: $ => seq('while', $.expr, $._word),
 
