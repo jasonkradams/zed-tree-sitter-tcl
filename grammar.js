@@ -40,6 +40,11 @@ module.exports = grammar({
     /\\\r?\n/
   ],
 
+  conflicts: ($) => [
+    [$._word_simple, $._concat_word],
+    [$.braced_word, $.braced_word_simple],
+  ],
+
   rules: {
     source_file: $ => repeat(seq(
       optional($._command),
@@ -79,17 +84,18 @@ module.exports = grammar({
     regsub: $ => prec.left(
       seq(
         token(prec(1, "regsub")),
-        optional($.regsub_switches),
+        optional($._regsub_switches),
         field("pattern", $.regsub_literal),
         field("input", $._word),
         field("substitution", $.regsub_literal),
-        optional(field("varName", $.simple_word)),
+        optional(field("id", $._word_simple)),
+        repeat($._word),
       ),
     ),
 
-    regsub_switches: ($) => repeat1($.regsub_switch),
+    _regsub_switches: $ => repeat1($.regsub_switch),
 
-    regsub_switch: ($) =>
+    regsub_switch: $ =>
       prec.left(
         repeat1(
           seq(
@@ -100,13 +106,15 @@ module.exports = grammar({
               "-linestop",
               "-lineanchor",
               "-nocase",
-              seq("-start", $.number),
+              seq("-start", choice($.number, $.variable_substitution)),
               "--",
             ),
             " ",
           ),
         ),
       ),
+
+    regsub_braced_literal: $ => token(seq("{", /[^}]*/, "}")),
 
     /*
           regsub_literal accepts an argument as one of:
@@ -115,11 +123,12 @@ module.exports = grammar({
             - a simple word (e.g. pattern)
           Each is parsed as a single token.
         */
-    regsub_literal: ($) =>
+    regsub_literal: $ =>
       choice(
-        token(seq("{", /[^}]*/, "}")),
-        token(seq('"', /[^"]*/, '"')),
+        $.regsub_braced_literal,
+        $.quoted_word,
         $.simple_word,
+        $.variable_substitution,
       ),
 
     while: $ => seq('while', $.expr, $._word),
